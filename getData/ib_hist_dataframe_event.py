@@ -5,16 +5,17 @@ IB API - Store Historical Data of multiple stocks in dataframe
 @author: Mayank Rasu (http://rasuquant.com/wp/)
 """
 
-# Import libraries
-from ibapi.client import EClient
-from ibapi.wrapper import EWrapper
-from ibapi.contract import Contract
-import pandas as pd
-import openpyxl
 import threading
 import time
 
-class TradeApp(EWrapper, EClient): 
+import pandas as pd
+# Import libraries
+from ibapi.client import EClient
+from ibapi.contract import Contract
+from ibapi.wrapper import EWrapper
+
+
+class TradeApp(EWrapper, EClient):
     def __init__(self): 
         EClient.__init__(self, self) 
         self.data = {}

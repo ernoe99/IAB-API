@@ -5,11 +5,12 @@ IBAPI - Getting Contract info
 @author: Mayank Rasu (http://rasuquant.com/wp/)
 """
 
-from ibapi.client import EClient
-from ibapi.wrapper import EWrapper
-from ibapi.contract import Contract
 import threading
 import time
+
+from ibapi.client import EClient
+from ibapi.contract import Contract
+from ibapi.wrapper import EWrapper
 
 
 class TradingApp(EWrapper, EClient):

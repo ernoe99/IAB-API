@@ -6,15 +6,17 @@ IBAPI - Getting historical data for stocks from different exchanges and geograph
 """
 
 
-# Import libraries
-from ibapi.client import EClient
-from ibapi.wrapper import EWrapper
-from ibapi.contract import Contract
-import pandas as pd
 import threading
 import time
 
-class TradeApp(EWrapper, EClient): 
+import pandas as pd
+# Import libraries
+from ibapi.client import EClient
+from ibapi.contract import Contract
+from ibapi.wrapper import EWrapper
+
+
+class TradeApp(EWrapper, EClient):
     def __init__(self): 
         EClient.__init__(self, self) 
         self.data = {}
