@@ -27,7 +27,13 @@ def genericStock(matk, volak, oomk, matl, volal, ooml, putcall, dKurse):
     return (valk - valkend) + (vallend - vall)
 
 
-def makeMatrixFull(Kurse, putcall, ticker):  # 1 ist putsystem 0 = callsystem
+def makeMatrixFull(Kurse, putcall, ticker,
+                   volas=None, shmat=[1, 2, 4], shoff=[-2, -1, 0, 1, 2, 4],
+                   lomat=[1, 2, 4, 8, 16, 32, 52], looff = [-50, -8, -6, -4, -2, -1, 0]):  # 1 ist putsystem 0 = callsystem
+
+    if volas is None:
+        volas = [5, 10, 12.5, 15, 17.5, 20, 25, 30, 35, 40, 50, 60, 70, 80, 90, 100, 120, 150,
+                 200]  # for low volas like GLD]
 
     dKurse = np.arange(Kurse.size - 1) * 1.0
 
@@ -36,20 +42,15 @@ def makeMatrixFull(Kurse, putcall, ticker):  # 1 ist putsystem 0 = callsystem
         # print((Kurse[item + 1] - Kurse[item]) / Kurse[item])
         dKurse[item] = (Kurse[item + 1] - Kurse[item]) / Kurse[item]
 
-    volas = [5, 10, 12.5, 15, 17.5, 20, 25, 30, 35, 40, 50, 60, 70, 80, 90, 100, 120, 150,
-             200]  # for low volas like GLD]
     vola_matrix = []
 
     with pd.ExcelWriter("..\\output\\" + ticker + "\\VolaDetails.xlsx") as writer:
 
         for vola in volas:
             shvol = vola / 100.0
-            shmat = [1, 2, 4]
-            shoff = [-2, -1, 0, 1, 2, 4]
 
-            lomat = [1, 2, 4, 8, 16, 32, 52]
             lovol = shvol
-            looff = [-50, -8, -6, -4, -2, -1, 0]
+
 
             index = 0
 

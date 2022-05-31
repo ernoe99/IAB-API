@@ -79,7 +79,7 @@ def dataDataframe(symbols,TradeApp_obj):
 #extract and store historical data in dataframe
 historicalData = dataDataframe(tickers,app)
 
-with pd.ExcelWriter('..\\output\Kurse.xlsx') as writer:
+with pd.ExcelWriter('../../output/Kurse.xlsx') as writer:
     for ticker in tickers:
         historicalData[ticker].to_excel(writer, sheet_name=ticker)
 
@@ -91,7 +91,7 @@ for ticker in tickers:
 #extract and store historical data in dataframe
 historicalData = dataDataframe(tickers,app)
 
-with pd.ExcelWriter('..\\output\OptionImplVola.xlsx') as writer:
+with pd.ExcelWriter('../../output/OptionImplVola.xlsx') as writer:
     for ticker in tickers:
         historicalData[ticker].to_excel(writer, sheet_name=ticker)
 
@@ -103,7 +103,7 @@ for ticker in tickers:
 #extract and store historical data in dataframe
 historicalData = dataDataframe(tickers,app)
 
-with pd.ExcelWriter('..\\output\HistoricalVola.xlsx') as writer:
+with pd.ExcelWriter('../../output/HistoricalVola.xlsx') as writer:
     for ticker in tickers:
         historicalData[ticker].to_excel(writer, sheet_name=ticker)
 

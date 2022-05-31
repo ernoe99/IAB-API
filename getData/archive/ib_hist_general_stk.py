@@ -31,14 +31,15 @@ class TradeApp(EWrapper, EClient):
 
 def websocket_con():
     app.run()
-    
+
+
 app = TradeApp()      
 app.connect("127.0.0.1", 7497, clientId=1)
 
 # starting a separate daemon thread to execute the websocket connection
 con_thread = threading.Thread(target=websocket_con, daemon=True)
 con_thread.start()
-time.sleep(1) # some latency added to ensure that the connection is established
+time.sleep(1)  # some latency added to ensure that the connection is established
 
 #creating object of the Contract class - will be used as a parameter for other function calls
 def generalStk(symbol,currency,exchange,sec_type="STK"):

@@ -67,7 +67,7 @@ def dataDataframe(TradeApp_obj,symbols):
     df_data = {}
     for symbol in symbols:
         df_data[symbol] = pd.DataFrame(TradeApp_obj.data[symbols.index(symbol)])
-        df_data[symbol].set_index("Date",inplace=True)
+        df_data[symbol].set_index("Date", inplace=True)
     TradeApp_obj.data = {}
     return df_data
 

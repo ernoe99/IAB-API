@@ -18,10 +18,10 @@ class TradingApp(EWrapper, EClient):
         EClient.__init__(self,self)
         
     def error(self, reqId, errorCode, errorString):
-        print("Error {} {} {}".format(reqId,errorCode,errorString))
+        print("Error {} {} {}".format(reqId, errorCode, errorString))
         
     def contractDetails(self, reqId, contractDetails):
-        print("redID: {}, contract:{}".format(reqId,contractDetails))
+        print("redID: {}, contract:{}".format(reqId, contractDetails))
 
 def websocket_con():
     app.run()
@@ -36,7 +36,7 @@ app.connect("127.0.0.1", 7497, clientId=1)
 # starting a separate daemon thread to execute the websocket connection
 con_thread = threading.Thread(target=websocket_con)
 con_thread.start()
-time.sleep(1) # some latency added to ensure that the connection is established
+time.sleep(1)  # some latency added to ensure that the connection is established
 
 #creating object of the Contract class - will be used as a parameter for other function calls
 contract = Contract()
@@ -50,7 +50,7 @@ contract.right = "C"
 contract.multiplier = "100"
 
 
-app.reqContractDetails(100, contract) # EClient function to request contract details
+app.reqContractDetails(100, contract)  # EClient function to request contract details
 
 contractstk = Contract()
 contractstk.symbol = "AAPL"

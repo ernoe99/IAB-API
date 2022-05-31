@@ -189,12 +189,12 @@ def getOptionMaturity(vola, volamatrix, Price, bp, Intervall):
     # bp - Best performance = 1, Best Risk = 2
 
     if bp == 1:
-        matushort = np.interp(volamatrix[:, 0], volamatrix[:, 1], vola)
-        matulong = np.interp(volamatrix[:, 0], volamatrix[:, 3], vola)
+        matushort = np.interp(vola*100.0, volamatrix[:, 0], volamatrix[:, 1])
+        matulong = np.interp(vola*100.0, volamatrix[:, 0], volamatrix[:, 3])
     else:
         if bp == 2:
-            matushort = np.interp(volamatrix[:, 0], volamatrix[:, 5], vola)
-            matulong = np.interp(volamatrix[:, 0], volamatrix[:, 8], vola)
+            matushort = np.interp(vola*100.0, volamatrix[:, 0], volamatrix[:, 5])
+            matulong = np.interp(vola*100.0, volamatrix[:, 0], volamatrix[:, 7])
     return [matushort, matulong]
 
 
@@ -211,12 +211,12 @@ def getOptionStrike(vola, volamatrix, price, bp, intervall):
     #   bp - Best performance = 1, Best Risk = 2
 
     if bp == 1:
-        levelshort = np.interp(vola, volamatrix[:, 0], volamatrix[:, 2])
-        levellong = np.interp(vola, volamatrix[:, 0], volamatrix[:, 4])
+        levelshort = np.interp(vola*100.0, volamatrix[:, 0], volamatrix[:, 2])
+        levellong = np.interp(vola*100.0, volamatrix[:, 0], volamatrix[:, 4])
     else:
         if bp == 2:
-            levelshort = np.interp(vola, volamatrix[:, 0], volamatrix[:, 6])
-            levellong = np.interp(vola, volamatrix[:, 0], volamatrix[:, 8])
+            levelshort = np.interp(vola*100.0, volamatrix[:, 0], volamatrix[:, 6])
+            levellong = np.interp(vola*100.0, volamatrix[:, 0], volamatrix[:, 8])
 
     levelshort = (1.0 + levelshort / 100) * price
     levelshort = round(levelshort / intervall) * intervall  # Rundung auf nächsten verfügbaren Strikewert
