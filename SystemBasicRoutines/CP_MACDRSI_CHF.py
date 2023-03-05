@@ -19,21 +19,16 @@ from datetime import datetime
 
 # "RDS A" nach RSX
 
-tickers = ["HL", "T", "VOD", "COP", "TLT", "GLD", "GDX", "ALLO", "CRBU", "CSCO", "VZ", "GSK",
-           "VALE", "RIO", "BHP", "EWI", "CRSP", "MO", "PFE", "EWJ", "EMR", "AAPL", "AA", "IBKR",
-           "KO", "JNJ", "PHM", "BIIB", "DHI", "PM", "DIA", "GOLD", "SPY", "QQQ", "PSX", "AAL",
-           "AZN", "BRK B", "IBM", "TEAM", "RIG",  "INTC", "TSLA", "STM", "MU", "FCX",
-           "MMM", "FCEL", "PLUG", "BLDP", "KGC", "GE", "NOK", "EWG", "SLV", "BP", "PSX", "TM",
-           "MCD", "MSFT", "CAT", "BA", "PG", "WMT", "DIS", "GFI", "AU", "GM", "F", "GS",
-           "MRK", "XOM", "CVX", "QS", "MKFG", "SRAD", "BABA", "EQNR", "AAPL", "AMZN",
-           "SDGR", "GOOGL", "GOOG", "META", "DOW", "TQQQ", "NEM", "PBR", "WHR",
-           "VNQ", "VNQI", "BND", "BNDX", "DBE", "DBP", "DBB", "DBA", "EEM", "EFA", "VTI", "XLE", "SHY"]
-# "RSX",
-# URBAN Jäckle ETFs :"VNQ", "VNQI",   REal Estate US EXus
-#                   "BND", "BNDX",  Bonds
-#                   "DBE", "DBP", "DBB", "DBA",  Energy (alt,neu XLE) Edelmetalle, Basismetalle, Agrar
-#                   "EEM", "EFA","VTI"  Emerging Markets, ex US, US stocks
-#                   , "XLE", "SHY"  Energy (US Oelstocks)  cash 1-3 jahres bonds
+# tickers = ["HL", "T", "VOD", "COP", "TLT", "GLD", "GDX", "ALLO", "CRBU", "CSCO", "VZ", "GSK",
+#            "VALE", "RIO", "BHP", "EWI", "CRSP", "MO", "PFE", "EWJ", "EMR", "AAPL", "AA", "IBKR",
+#            "KO", "JNJ", "PHM", "BIIB", "DHI", "PM", "DIA", "GOLD", "SPY", "QQQ", "PSX", "AAL",
+#            "AZN", "BRK B", "IBM", "TEAM", "RIG", "RSX", "INTC", "TSLA", "STM", "MU", "FCX",
+#            "MMM", "FCEL", "PLUG", "BLDP", "KGC", "GE", "NOK", "EWG", "SLV", "BP", "PSX", "TM",
+#            "MCD", "MSFT", "CAT", "BA", "PG", "WMT", "DIS", "GFI", "AU", "GM", "F", "GS",
+#            "MRK", "XOM", "CVX", "QS", "MKFG", "SRAD", "BABA", "EQNR", "AAPL", "AMZN",
+#            "SDGR", "GOOGL", "GOOG", "META"]
+
+tickers = ["NOVN"]
 
 tickers1 = ["CSCO", "CRBU", "PHM", "VOD", "SPY", "INTC", "RIO", "HL", "GDX", "VALE", "RSX", "QS"]
 
@@ -180,7 +175,7 @@ class TradingApp(EWrapper, EClient):
 
 
 ####  this function declares the properties of the instrument. 
-def usTechStk(symbol, sec_type="STK", currency="USD", exchange="ISLAND"):
+def usTechStk(symbol, sec_type="STK", currency="CHF", exchange="EBS"):
     contract = Contract()
     contract.symbol = symbol
     contract.secType = sec_type
@@ -189,7 +184,7 @@ def usTechStk(symbol, sec_type="STK", currency="USD", exchange="ISLAND"):
     return contract
 
 
-def usTechOpt(symbol, sec_type="OPT", currency="USD", exchange="BOX"):
+def usTechOpt(symbol, sec_type="OPT", currency="CHF", exchange="EBS"):
     contract = Contract()
     contract.symbol = symbol
     contract.secType = sec_type

@@ -207,7 +207,7 @@ tickers = {}
 checkticker = 0
 
 inpexel = "..\\input\\Tickers.xlsx"
-sheet = 'TickTest'  #   'Index'    'Tickers'
+sheet = 'IVY11'   # 'TickTest'  #   'Index'    'Tickers'  'IVY11'
 outdir = '..\\output_test\\'  # '..\\output\\'
 
 if select == 1:   # Funktioniert nicht Besser Excel definierein

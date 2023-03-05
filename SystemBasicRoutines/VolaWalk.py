@@ -69,7 +69,8 @@ def VolaWalk(prices, volamatrix, sigma, intervall, bp):
         gv = (vp - evs) + (evl - kp)
 
         df2 = pd.DataFrame({"Price": [prices[i]], "Volatility": [sigma[i]], "short Opt strike": [sS],
-                            "Short Opt price": [vp],
+                            "Short 1964"
+                            "Opt price": [vp],
                             "Short Opt end": [evs], "Long Opt strike": [lS], "Long Opt price": [kp],
                             "Long Opt end": [evl], "Win_Loss": [gv], "Vola": [sigma[i + 1]], "Risk": [risk]})
 
