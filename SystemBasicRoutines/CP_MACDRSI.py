@@ -16,7 +16,7 @@ import threading
 import time
 from copy import deepcopy
 from datetime import datetime
-
+27
 # "RDS A" nach RSX
 
 tickers = ["HL", "T", "VOD", "COP", "TLT", "GLD", "GDX", "ALLO", "CRBU", "CSCO", "VZ", "GSK",
@@ -25,8 +25,8 @@ tickers = ["HL", "T", "VOD", "COP", "TLT", "GLD", "GDX", "ALLO", "CRBU", "CSCO",
            "AZN", "BRK B", "IBM", "TEAM", "RIG",  "INTC", "TSLA", "STM", "MU", "FCX",
            "MMM", "FCEL", "PLUG", "BLDP", "KGC", "GE", "NOK", "EWG", "SLV", "BP", "PSX", "TM",
            "MCD", "MSFT", "CAT", "BA", "PG", "WMT", "DIS", "GFI", "AU", "GM", "F", "GS",
-           "MRK", "XOM", "CVX", "QS", "MKFG", "SRAD", "BABA", "EQNR", "AAPL", "AMZN",
-           "SDGR", "GOOGL", "GOOG", "META", "DOW", "TQQQ", "NEM", "PBR", "WHR",
+           "MRK", "XOM", "CVX", "QS", "MKFG", "SRAD", "BABA", "EQNR", "AAPL", "AMZN", "MDLZ",
+           "SDGR", "GOOGL", "GOOG", "META", "DOW", "TQQQ", "NEM", "PBR", "WHR", "AMGN",
            "VNQ", "VNQI", "BND", "BNDX", "DBE", "DBP", "DBB", "DBA", "EEM", "EFA", "VTI", "XLE", "SHY"]
 # "RSX",
 # URBAN Jäckle ETFs :"VNQ", "VNQI",   REal Estate US EXus

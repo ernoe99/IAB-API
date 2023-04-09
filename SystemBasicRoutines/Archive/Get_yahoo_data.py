@@ -34,7 +34,7 @@ symbol = "HL"
 
 dataidx = yf.download(symbol, start, enddate)
 
-csvfile = pathlib.Path(f'../temp/{symbol}.csv')
+csvfile = pathlib.Path(f'../../temp/{symbol}.csv')
 
 dataidx.to_csv(csvfile)
 

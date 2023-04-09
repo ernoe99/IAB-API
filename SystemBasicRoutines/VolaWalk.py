@@ -22,7 +22,7 @@ def list_dir(dire):
 
 def getarrays(ticker, basedir='..\\output\\'):
     df = pd.read_excel(basedir + ticker + '\\Kurse.xlsx', sheet_name='Weekly', index_col=0)
-    dfvola = pd.read_excel(basedir + ticker + '\\Kurse.xlsx', sheet_name='ImplVola', index_col=0)   # TODO umschalten auf historische Volatiliät
+    dfvola = pd.read_excel(basedir + ticker + '\\Kurse.xlsx', sheet_name='IVWeekly', index_col=0)   # Changed to IVWeekly - TODO umschalten auf historische Volatiliät
     dates_df = df.index
     dates = dates_df.to_numpy()
 
@@ -32,7 +32,7 @@ def getarrays(ticker, basedir='..\\output\\'):
     i = 0
 
     for dat in dates_df:
-        a = dfvola.loc[dat].Close
+        a = dfvola.loc[dat].Close  #  wochenbasis
         implVola[i] = a
         i += 1
 
@@ -87,12 +87,11 @@ def VolaWalk(prices, volamatrix, sigma, intervall, bp):
             #                    "Short Opt end":[evs], "Long Opt strike": [lS], "Long Opt price":[kp],
             #                    "Long Opt end":[evl], "WinLoss":[gv], "Vola": [sigma[i + 1]], "Risk": [risk]})
 
-            df = df.append(df2, ignore_index=True)
-
+            # df = df.append(df2, ignore_index=True)  # old use concat instead
+            df = pd.concat([df, df2])
     print(df)
-    xf = df["Win_Loss"]
-    gvtotal = xf.sum()
 
+    gvtotal = df["Win_Loss"].sum()
     print(gvtotal)
 
     return [gvtotal, df]
@@ -101,11 +100,11 @@ def VolaWalk(prices, volamatrix, sigma, intervall, bp):
 def process_VolaWalk(target__dir='..\\output\\', ticker=""):
 
     if ticker == "":
-        liste_directories = list_dir(target__dir)
+        liste_directories = list_dir(target__dir)  # Wenn leer, dann alle im Directory
     else:
         liste_directories = [ticker]
 
-    sresult = []
+    iresult = 0
 
     for tick in liste_directories:
 
@@ -132,27 +131,40 @@ def process_VolaWalk(target__dir='..\\output\\', ticker=""):
         plcumbr = dfbr.Win_Loss.cumsum()
 
         auswertung = pd.concat([price, volax, plcum, plcumbr], axis=1)
+        df_volamatrix = pd.DataFrame(volamatrix, columns=['Volatility', 'shortweek BPerf', 'offset_BP', 'longweek BP',
+                                                          'offset BP Long', 'shortweek_BRisk', 'offset short BR',
+                                                          'long week BR', 'offfset_lweek BR'])
 
         with pd.ExcelWriter(target__dir + tick + '\\VolaWalk.xlsx', mode="w") as writer:
+            df_volamatrix.to_excel(writer, sheet_name='VolaMatrix'+tick)
             dfbp.to_excel(writer, sheet_name='Best Performance')
             dfbr.to_excel(writer, sheet_name='Best Risk')
             auswertung.to_excel(writer, sheet_name='Auswertung')
         print(f"File: {target__dir} {tick} \\VolaWalk.xlsx")
 
-        sresult.append(auswertung.last(5))
+        dfsymbol = pd.DataFrame([tick], columns=['Symbol'])
+        dfres = pd.concat([dfsymbol, auswertung.tail(1)], axis=1)
 
-    with pd.ExcelWriter(tick + '\\Process_Walk_results.xlsx', mode="w") as writer:
-        sresult.to_excel(writer, sheet_name='Process VolaWalk Result')
-    print(f"File: {tick} \\Process_Walk_results.xlsx writen")
+        if iresult == 0:
+            df_result = dfres
+            iresult = 1
+        else:
+            df_result = pd.concat([df_result, dfres])
 
-    return sresult
+    print(df_result)
+
+    with pd.ExcelWriter(target_dir + 'Process_Walk_results.xlsx', mode="w") as writer:   # Schreiben der Ergebnisse in Excel
+        df_result.to_excel(writer, sheet_name='ProcVolaWalkRes')
+    print(f"File: Process_Walk_results.xlsx writen")
+
+    return
 
 
 # Starting main
 
-target_dir = '..\\output\\'
+target_dir = '..\\output_test\\'
 
-s_result = process_VolaWalk(target_dir, ticker="IBKR")
+process_VolaWalk(target_dir, ticker="")  # kein Return Wert ende
 
 
 # print(getOptionStrike(0.275, volamatrix, 225.6, 1, 1))
