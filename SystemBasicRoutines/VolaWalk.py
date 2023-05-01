@@ -1,8 +1,11 @@
 import os
+import time
 import shutil
+from pathlib import Path
 
 import pandas as pd
 import numpy as np
+
 
 from SystemBasicRoutines.makeMatrixFull import makeMatrixFull
 from SystemBasicRoutines.blackscholes import getOptionStrike, getOptionMaturity, putvecdays
@@ -23,20 +26,29 @@ def list_dir(dire):
 def getarrays(ticker, basedir='..\\output\\'):
     df = pd.read_excel(basedir + ticker + '\\Kurse.xlsx', sheet_name='Weekly', index_col=0)
     dfvola = pd.read_excel(basedir + ticker + '\\Kurse.xlsx', sheet_name='IVWeekly', index_col=0)   # Changed to IVWeekly - TODO umschalten auf historische Volatiliät
-    dates_df = df.index
-    dates = dates_df.to_numpy()
+    # dates_df = df.index
+    # dates = dates_df.to_numpy()
 
-    prices = df.Close.to_numpy()
+    # prices = df.Close.to_numpy()
 
-    implVola = prices.copy()
-    i = 0
+    # implVola = prices.copy()
+    # i = 0
 
-    for dat in dates_df:
-        a = dfvola.loc[dat].Close  #  wochenbasis
-        implVola[i] = a
-        i += 1
+    # Alternative
 
-    print("Fertig")
+
+    # for dat in dates_df:
+    #     a = dfvola.loc[dat].Close  #  wochenbasis  #TODO: dfvola ist kürzer als dates aus dem df daher funktioniert loc nicht
+    #     implVola[i] = a
+    #     i += 1
+
+    # print("Fertig")
+
+    dfnew = df.merge(dfvola, how='inner', left_index=True, right_index=True)
+
+    implVola = dfnew.Close_y.to_numpy()
+    prices = dfnew.Close_x.to_numpy()
+
     return [prices, implVola]
 
 
@@ -108,6 +120,13 @@ def process_VolaWalk(target__dir='..\\output\\', ticker=""):
 
     for tick in liste_directories:
 
+        # Check if already processed - VolaWalk.xlsx exists
+        if Path(target__dir + tick + '\\VolaWalk.xlsx').is_file():
+            print(f"{tick}: already processed - skip")
+            # continue
+        else:
+            print(f"Running {tick}")
+
         #  workdir = target_dir + '\\' + dir
         [prices, implVola] = getarrays(tick, target__dir)
 
@@ -140,7 +159,7 @@ def process_VolaWalk(target__dir='..\\output\\', ticker=""):
             dfbp.to_excel(writer, sheet_name='Best Performance')
             dfbr.to_excel(writer, sheet_name='Best Risk')
             auswertung.to_excel(writer, sheet_name='Auswertung')
-        print(f"File: {target__dir} {tick} \\VolaWalk.xlsx")
+        print(f"File: {target__dir}{tick}\\VolaWalk.xlsx")
 
         dfsymbol = pd.DataFrame([tick], columns=['Symbol'])
         dfres = pd.concat([dfsymbol, auswertung.tail(1)], axis=1)
@@ -162,10 +181,13 @@ def process_VolaWalk(target__dir='..\\output\\', ticker=""):
 
 # Starting main
 
-target_dir = '..\\output_test\\'
+target_dir = '..\\output_Apr23\\'
+
+starttime = time.time()
 
 process_VolaWalk(target_dir, ticker="")  # kein Return Wert ende
 
+print(f"Volawalk finisehd - time: {(time.time() - starttime)} Seconds")
 
 # print(getOptionStrike(0.275, volamatrix, 225.6, 1, 1))
 # print(getOptionStrike(0.275, volamatrix, 225.6, 2, 1))
