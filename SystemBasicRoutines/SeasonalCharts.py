@@ -3,7 +3,7 @@ import yfinance as yf
 from datetime import datetime
 import matplotlib.pyplot as plt
 import pathlib
-import waterfall_chart
+# import waterfall_chart
 import plotly.graph_objects as go
 import packaging
 
@@ -47,8 +47,8 @@ def run():
     df = getdata(symbol, start)
     [im, vm] = calc_monthlydata(df)
     [iw, vw] = calc_weekly_data(df)
-    plot_mdata(im, vm)
-    plot_wdata(iw, vw)
+    # plot_mdata(im, vm)
+    # plot_wdata(iw, vw)
     waterfallplot(im, vm, iw, vw, symbol, df.shape[0])
 
 
