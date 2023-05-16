@@ -7,7 +7,7 @@ import pathlib
 import plotly.graph_objects as go
 import packaging
 
-from Basic_Seasonal import getdata, calc_monthlydata, calc_weekly_data
+from Basic_Seasonal_adjClose import getdata, calc_monthlydata, calc_weekly_data
 
 from tkinter import *
 
