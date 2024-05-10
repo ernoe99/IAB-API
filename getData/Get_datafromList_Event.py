@@ -201,7 +201,7 @@ def get_data_from_iab(numtickers, sectype, exchange, basedir='..\\output\\', yea
         collect_data(ticker, basedir, security_type, exci, years, stockId)
 
 
-select = 2
+select = 1
 
 tickers = {}
 checkticker = 0
@@ -211,9 +211,12 @@ sheet = 'Tickers'   # 'IVY11'   # 'TickTest'  #   'Index'    'Tickers'  'IVY11'
 outdir = '..\\output_Apr23\\'  # '..\\output\\'
 
 if select == 1:   # Funktioniert nicht Besser Excel definierein
-    numtickers = ["VIX", "DJX", "DAX"]
-    sectype = ["IND", "IND", "IND"]
-    exc = ["CBOE", "CBOE", "DTB"]
+    # numtickers = ["VIX", "DJX", "DAX", "RIO", "TLT"]
+    # sectype = ["IND", "IND", "IND", "STK", "STK"]
+    # exc = ["CBOE", "CBOE", "DTB", "ISLAND", "ISLAND"]
+    numtickers = ["TLT"]
+    sectype =["STK"]
+    exc = ["ISLAND"]
 else:
     xlsx = pd.ExcelFile(inpexel)
     tickers = pd.read_excel(xlsx, sheet_name=sheet, usecols=['StockSymbol', 'Security_Type', 'Exchange'])
