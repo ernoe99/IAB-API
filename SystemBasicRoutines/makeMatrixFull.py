@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
 
+from SystemBasicRoutines.pathes_and_constants import target_dir
 from blackscholes import callvecdays, putvecdays
 
 
@@ -44,7 +45,7 @@ def makeMatrixFull(Kurse, putcall, ticker,
 
     vola_matrix = []
 
-    with pd.ExcelWriter("..\\output\\" + ticker + "\\VolaDetails.xlsx") as writer:
+    with pd.ExcelWriter(target_dir + ticker + "\\VolaDetails.xlsx") as writer:
 
         for vola in volas:
             shvol = vola / 100.0
@@ -90,7 +91,7 @@ def makeMatrixFull(Kurse, putcall, ticker,
                                             "Offset Long", "Maturity Short", "Offset Short", "Maturity Long",
                                             "Offset Long"])
     print(vm)
-    vm.to_excel("..\\output\\" + ticker + "\\Vola_Matrix.xlsx")
+    vm.to_excel(target_dir + ticker + "\\Vola_Matrix.xlsx")
 
     return vm.to_numpy()
 

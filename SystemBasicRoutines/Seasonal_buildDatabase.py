@@ -84,7 +84,7 @@ target_dir = '..\\output_Apr23\\'
 start = "2001-10-01"
 starttime = time.time()
 
-ticker = "HL"
+ticker = "MMM"
 
 build_seasonal_db(target_dir, ticker="")  # kein Return Wert ende
 # build_seasonal_db(target_dir, ticker=ticker)  # kein Return Wert ende

@@ -6,7 +6,9 @@ from pathlib import Path
 import pandas as pd
 import numpy as np
 
+from SystemBasicRoutines.pathes_and_constants import target_dir
 
+from SystemBasicRoutines.Basic_VolaWalk import getarrays
 from SystemBasicRoutines.makeMatrixFull import makeMatrixFull
 from SystemBasicRoutines.blackscholes import getOptionStrike, getOptionMaturity, putvecdays
 
@@ -142,11 +144,11 @@ def process_VolaWalk(target__dir='..\\output\\', ticker=""):
 
 # Starting main
 
-target_dir = '..\\output_Apr23\\'
+# target_dir = '..\\output_Apr23\\'
 
 starttime = time.time()
 
-process_VolaWalk(target_dir, ticker="")  # kein Return Wert ende
+process_VolaWalk(target_dir, ticker="TLT")  # kein Return Wert ende
 
 print(f"Volawalk finisehd - time: {(time.time() - starttime)} Seconds")
 
