@@ -30,7 +30,7 @@ tickers = ["HL", "T", "VOD", "COP",  "GLD", "GDX", "ALLO", "CRBU", "CSCO", "VZ",
            "SDGR", "GOOGL", "GOOG", "META", "DOW", "TQQQ", "NEM", "PBR", "WHR", "AMGN",
            "VNQ", "VNQI", "BND", "BNDX", "DBE", "DBP", "DBB", "DBA", "EEM", "EFA", "VTI", "XLE", "SHY",
            "XLP", "XLC", "XLK", "XLI", "XLY", "XLV", "XLU", "XLF", "XLB", "XLRE",
-           "PXD", "PRU"]
+           "PRU"]
 # "RSX",
 # URBAN Jäckle ETFs :"VNQ", "VNQI",   REal Estate US EXus
 #                   "BND", "BNDX",  Bonds
@@ -455,6 +455,8 @@ ConThread.start()
 
 ticker_event = threading.Event()
 contract_event = threading.Event()
+
+time.sleep(5)
 
 fetchHistorical(tickers, case)
 ticker_filter()

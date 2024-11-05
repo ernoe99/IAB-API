@@ -10,6 +10,7 @@ import threading
 import time
 
 import pandas as pd
+import openpyxl
 # Import libraries
 from ibapi.client import EClient
 from ibapi.contract import Contract
@@ -27,7 +28,6 @@ class TradeApp(EWrapper, EClient):
         if errorCode == 200:
             # print("Directory", os.getcwd())
             os.mkdir('ERROR_200')
-
 
     def contractDetails(self, reqId, contractDetails):
         print("redID: {}, contract:{}".format(reqId, contractDetails.longName))
@@ -66,11 +66,14 @@ def histData(req_num, contract, duration, candle_size, whattoshow):
                           keepUpToDate=0,
                           chartOptions=[])  # EClient function to request contract details
 
+
 def websocket_con():
     app.run()
     event.wait()
     if event.is_set():
-        app.close()
+        print("Event is set")
+        app.disconnect()
+        # app.close()
 
 
 ###################storing trade app object in dataframe#######################
@@ -94,10 +97,8 @@ def waiter(reqId):
 
 
 def collect_data(ticker, basedir, sectype, exci, years, stockId):
-
     reqId = 1
     app.data = {}  # Rucksetzen der app.data um Speicher zu sparen
-
 
     if os.path.isdir(basedir + ticker):
         print(f"This is already processed {ticker} with ID: {stockId}")
@@ -105,10 +106,9 @@ def collect_data(ticker, basedir, sectype, exci, years, stockId):
 
     print(f"This is a new stock {ticker}  reqId {reqId}  with ID: {stockId}")
 
-
     stk = usTechStk(ticker, sectype, exchange=exci)
 
-#   Check if contract exists
+    #   Check if contract exists
 
     app.reqContractDetails(100, stk)  # EClient function to request contract details
 
@@ -120,11 +120,9 @@ def collect_data(ticker, basedir, sectype, exci, years, stockId):
         os.removedirs('ERROR_200')
         return
 
-
     histData(reqId, stk, years, '1 day', 'ADJUSTED_LAST')
 
-#      print(f"Symbol: {ticker} no data found - wrong Synbol? - Skipped")
-
+    #      print(f"Symbol: {ticker} no data found - wrong Synbol? - Skipped")
 
     print(f"Got Historical Data: {ticker}")
     # extract and store historical data in dataframe
@@ -184,8 +182,6 @@ def collect_data(ticker, basedir, sectype, exci, years, stockId):
 
 
 def get_data_from_iab(numtickers, sectype, exchange, basedir='..\\output\\', years='19 Y', ):
-
-
     stockId = 0
     #  numtickers = ["FB", "AMZN", "INTC"]
 
@@ -193,7 +189,6 @@ def get_data_from_iab(numtickers, sectype, exchange, basedir='..\\output\\', yea
         os.mkdir(basedir)
 
     for ticker in numtickers:
-
         security_type = sectype[stockId]
         exci = exchange[stockId]
         stockId += 1
@@ -201,21 +196,21 @@ def get_data_from_iab(numtickers, sectype, exchange, basedir='..\\output\\', yea
         collect_data(ticker, basedir, security_type, exci, years, stockId)
 
 
-select = 1
+select = 0  # 1
 
 tickers = {}
 checkticker = 0
 
 inpexel = "..\\input\\Tickers.xlsx"
-sheet = 'Tickers'   # 'IVY11'   # 'TickTest'  #   'Index'    'Tickers'  'IVY11'
-outdir = '..\\output_Apr23\\'  # '..\\output\\'
+sheet =  'TickTest'  # 'IVY11'   # 'TickTest'  #   'Index'    'Tickers'  'IVY11'
+outdir = '..\\output_Sep24\\'  # '..\\output\\'
 
-if select == 1:   # Funktioniert nicht Besser Excel definierein
+if select == 1:  # Funktioniert nicht Besser Excel definierein
     # numtickers = ["VIX", "DJX", "DAX", "RIO", "TLT"]
     # sectype = ["IND", "IND", "IND", "STK", "STK"]
     # exc = ["CBOE", "CBOE", "DTB", "ISLAND", "ISLAND"]
     numtickers = ["TLT"]
-    sectype =["STK"]
+    sectype = ["STK"]
     exc = ["ISLAND"]
 else:
     xlsx = pd.ExcelFile(inpexel)
@@ -228,11 +223,11 @@ else:
 
 event = threading.Event()
 app = TradeApp()
-app.connect(host='127.0.0.1', port=7497, clientId=22)  # port 4002 for ib gateway paper trading/7497 for TWS paper trading
+app.connect(host='127.0.0.1', port=7497,
+            clientId=22)  # port 4002 for ib gateway paper trading/7497 for TWS paper trading
 con_thread = threading.Thread(target=websocket_con)
 con_thread.start()
 time.sleep(1)  # some latency added to ensure that the connection is established
-
 
 get_data_from_iab(numtickers, sectype, exc, outdir, years='19 Y')
 
